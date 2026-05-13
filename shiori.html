@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>広島・呉・尾道 旅のしおり</title>
+<style>
+:root{
+  --navy:#1a2e4a;--orange:#b85a18;
+  --bg:#fff;--bg2:#f7f6f3;--bg3:#f0ede8;
+  --text:#1a1a1a;--muted:#666;--hint:#999;
+  --border:#e0ddd8;--border2:#ccc;
+  --red-bg:#fef2f2;--red-border:#fca5a5;--red-text:#991b1b;
+  --amber-bg:#fffbeb;--amber-border:#fcd34d;--amber-text:#92400e;
+  --green-bg:#f0fdf4;--green-border:#86efac;--green-text:#166534;
+  --blue-bg:#eff6ff;--blue-text:#1e40af;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif;color:var(--text);background:var(--bg2);font-size:15px;line-height:1.7;padding:12px}
+
+/* --- cover --- */
+.cover{background:var(--navy);color:#fff;padding:22px 18px 18px;border-radius:14px;margin-bottom:16px}
+.cover-label{font-size:10px;letter-spacing:.15em;text-transform:uppercase;opacity:.6;margin-bottom:4px}
+.cover-title{font-size:20px;font-weight:600;line-height:1.3;margin-bottom:10px}
+.pills{display:flex;flex-wrap:wrap;gap:5px}
+.pill{background:rgba(255,255,255,.18);border-radius:20px;padding:3px 10px;font-size:12px}
+
+/* --- tabs --- */
+.tab-row{display:flex;gap:6px;margin-bottom:14px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:2px}
+.tab-row::-webkit-scrollbar{display:none}
+.tab{padding:11px 18px;border-radius:20px;font-size:14px;border:1px solid var(--border2);background:var(--bg);cursor:pointer;white-space:nowrap;color:var(--muted);-webkit-tap-highlight-color:transparent;display:inline-block;text-decoration:none;min-height:44px;line-height:1.2;display:inline-flex;align-items:center;user-select:none;-webkit-user-select:none}
+.tab.active{background:var(--navy);color:#fff;border-color:var(--navy)}
+.page{display:none}.page.active{display:block}
+
+/* --- section header --- */
+.sec{display:flex;align-items:center;gap:8px;margin:20px 0 10px;padding-bottom:8px;border-bottom:1.5px solid var(--border)}
+.sec-icon{font-size:18px}
+.sec-title{font-size:15px;font-weight:600}
+.day-tag{margin-left:auto;font-size:11px;color:var(--muted);background:var(--bg3);border:1px solid var(--border);padding:2px 9px;border-radius:10px}
+
+/* --- timeline --- */
+.tl{display:flex;flex-direction:column}
+.tli{display:flex;gap:10px;padding-bottom:14px}
+.tll{display:flex;flex-direction:column;align-items:center;min-width:50px}
+.tlt{font-size:11px;font-weight:600;color:var(--muted);white-space:nowrap;padding-top:2px}
+.tld{width:9px;height:9px;border-radius:50%;background:var(--navy);margin-top:5px;flex-shrink:0}
+.tld.k{background:var(--orange);width:11px;height:11px}
+.tln{flex:1;width:1px;background:var(--border);margin-top:4px;min-height:10px}
+.tlb{flex:1;padding-top:1px}
+.tln2{font-size:14px;font-weight:600;line-height:1.4}
+.tlm{font-size:12.5px;color:var(--muted);margin-top:3px;line-height:1.55}
+
+/* --- shop chips --- */
+.shops{display:flex;flex-direction:column;gap:4px;margin-top:7px}
+.shop{background:var(--bg3);border-radius:8px;padding:7px 10px;font-size:12.5px}
+.sn{font-weight:600;color:var(--navy)}
+.sd{color:var(--muted);font-size:11.5px;margin-top:1px}
+
+/* --- card --- */
+.card{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:13px 15px;margin-bottom:10px}
+.ct{font-size:14px;font-weight:600;margin-bottom:8px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.ir{display:flex;align-items:flex-start;gap:9px;padding:7px 0;border-bottom:1px solid var(--border)}
+.ir:last-child{border-bottom:none}
+.il{font-size:11.5px;color:var(--muted);width:60px;flex-shrink:0;padding-top:2px;font-weight:600}
+.iv{font-size:13px;line-height:1.55;flex:1}
+
+/* --- tel buttons --- */
+.tb{display:inline-flex;align-items:center;gap:6px;background:var(--navy);color:#fff;border-radius:20px;padding:8px 16px;font-size:13px;text-decoration:none;margin-top:8px;font-weight:600}
+.tbo{display:inline-flex;align-items:center;gap:6px;background:transparent;color:var(--navy);border:1.5px solid var(--navy);border-radius:20px;padding:7px 14px;font-size:13px;text-decoration:none;margin-top:8px;margin-left:6px;font-weight:600}
+
+/* --- badges --- */
+.badge{display:inline-flex;align-items:center;font-size:11px;padding:2px 8px;border-radius:10px;font-weight:600;vertical-align:middle;margin-left:4px}
+.bb{background:var(--blue-bg);color:var(--blue-text)}
+.bg{background:var(--green-bg);color:var(--green-text)}
+
+/* --- alerts --- */
+.alert{border-radius:10px;padding:10px 12px;margin-bottom:10px;font-size:13px;display:flex;gap:8px;align-items:flex-start}
+.alert.amber{background:var(--amber-bg);border:1px solid var(--amber-border);color:var(--amber-text)}
+.alert.red{background:var(--red-bg);border:1px solid var(--red-border);color:var(--red-text)}
+.alert-icon{font-size:16px;flex-shrink:0;margin-top:1px}
+
+/* --- checklist / priority --- */
+.ck-list{list-style:none;display:flex;flex-direction:column}
+.ck-list li{display:flex;align-items:flex-start;gap:9px;padding:9px 0;border-bottom:1px solid var(--border);font-size:13.5px}
+.ck-list li:last-child{border-bottom:none}
+.ck-box{width:20px;height:20px;border-radius:5px;border:1.5px solid var(--border2);background:var(--bg);flex-shrink:0;margin-top:2px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--navy)}
+.ck-box.done{background:var(--navy);border-color:var(--navy);color:#fff}
+.ck-text.done{color:var(--hint);text-decoration:line-through}
+.ck-sub{font-size:12px;color:var(--muted);margin-top:2px}
+.pr-list{list-style:none;display:flex;flex-direction:column}
+.pr-list li{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);font-size:13.5px}
+.pr-list li:last-child{border-bottom:none}
+.pnum{width:24px;height:24px;border-radius:50%;background:var(--navy);color:#fff;font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+
+/* --- pack grid --- */
+.pack-grid{display:grid;grid-template-columns:1fr 1fr}
+.pack-item{display:flex;align-items:center;gap:8px;padding:9px 10px;border-bottom:1px solid var(--border);font-size:13px}
+.pack-item:nth-child(odd){border-right:1px solid var(--border)}
+.pack-icon{font-size:16px;flex-shrink:0}
+
+/* --- memo box --- */
+.memo{background:var(--bg3);border-radius:10px;padding:12px 14px;font-size:13px;color:var(--muted);line-height:1.8}
+.memo b{color:var(--text)}
+
+/* --- tel note --- */
+.tel-memo{background:var(--bg3);border-radius:10px;padding:11px 13px;font-size:13px;color:var(--muted);line-height:1.75;margin-bottom:8px}
+.tel-memo b{color:var(--text)}
+
+/* ==========================================
+   EDIT MODE
+   ========================================== */
+.edit-bar{display:flex;align-items:center;gap:8px;background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:9px 12px;margin-bottom:14px}
+.edit-bar span{font-size:13px;color:var(--muted);flex:1}
+.edit-btn{padding:6px 14px;border-radius:20px;font-size:13px;cursor:pointer;font-weight:600;border:none;-webkit-tap-highlight-color:transparent}
+.edit-btn.on{background:var(--orange);color:#fff}
+.edit-btn.off{background:var(--navy);color:#fff}
+
+[contenteditable="true"]{outline:none;background:rgba(255,200,100,.12);border-radius:4px;padding:0 2px;cursor:text;min-width:20px;display:inline-block}
+[contenteditable="true"]:focus{background:rgba(255,180,60,.22);box-shadow:0 0 0 2px rgba(184,90,24,.35)}
+</style>
+</head>
+<body>
+
+<!-- EDIT BAR -->
+<div class="edit-bar">
+  <span id="edit-status">「編集する」で内容を直接書き換えられます</span>
+  <button class="edit-btn off" id="edit-toggle">編集する</button>
+</div>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="cover-label">旅のしおり</div>
+  <div class="cover-title">広島・呉・尾道<br>1泊2日 ひとり旅</div>
+  <div class="pills">
+    <span class="pill">&#128197; <span data-e>2026年6月6日(土)〜7日(日)</span></span>
+    <span class="pill">&#9875; <span data-e>宮島・呉・尾道</span></span>
+    <span class="pill">&#128100; <span data-e>1名</span></span>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="tab-row" id="tab-row">
+  <span class="tab active" data-page="day1">1日目</span>
+  <span class="tab" data-page="day2">2日目</span>
+  <span class="tab" data-page="contacts">連絡先</span>
+  <span class="tab" data-page="checklist">チェック</span>
+</div>
+
+<!-- ===================== 1日目 ===================== -->
+<div id="day1" class="page active">
+
+<div class="alert amber">
+  <span class="alert-icon">&#9888;</span>
+  <span><b>大和ミュージアム</b>は2026年4月リニューアルオープン済み。<b>てつのくじら館</b>は向かいにあり入場無料。両館とも入館は<b>17:30まで</b>。</span>
+</div>
+
+<div class="sec">
+  <span class="sec-icon">&#128652;</span>
+  <span class="sec-title">午前 — 広島駅 → 宮島</span>
+  <span class="day-tag">6月6日(土)</span>
+</div>
+
+<div class="tl">
+  <div class="tli">
+    <div class="tll"><span class="tlt" data-e>9:00</span><div class="tld"></div><div class="tln"></div></div>
+    <div class="tlb"><div class="tln2" data-e>広島駅 到着</div><div class="tlm" data-e>荷物をコインロッカーへ（呉駅でも預け替え可）</div></div>
+  </div>
+  <div class="tli">
+    <div class="tll"><span class="tlt" data-e>9:10</span><div class="tld"></div><div class="tln"></div></div>
+    <div class="tlb"><div class="tln2" data-e>広島駅 → 宮島口</div><div class="tlm" data-e>JR山陽本線（みやじまライナー）約26分 / IC利用可</div></div>
+  </div>
+  <div class="tli">
+    <div class="tll"><span class="tlt" data-e>9:40</span><div class="tld"></div><div class="tln"></div></div>
+    <div class="tlb"><div class="tln2" data-e>宮島口 → フェリー乗船</div><div class="tlm" data-e>JRフェリーまたは松大汽船 約10分・片道180円</div></div>
+  </div>
+  <div class="tli">
+    <div class="tll"><span class="tlt" data-e>10:00</span><div class="tld k"></div><div class="tln"></div></div>
+    <div class="tlb"><div class="tln2" data-e>宮島 上陸</div><div class="tlm" data-e>身軽に。島内は徒歩メイン。</div></div>
+  </div>
+  <div class="tli">
+    <div class="tll"><span class="tlt" data-e>10:10</span><div class="tld"></div><div class="tln"></div></div>
+    <div class="tlb">
+      <div class="tln2" data-e>厳島神社 参拝</div>
+      <div class="tlm" data-e>参拝料300円。6月午前中は満潮に近いことが多い。</div>
+    </div>
+  </div>
+  <div class="tli">
+    <div class="tll"><span class="tlt" data-e>11:00</span><div class="tld k"></div><div class="tln"></div></div>
+    <div class="tlb">
+      <div class="tln2" data-e>表参道商店街 食べ歩き</div>
+      <div class="tlm" data-e>以下4店舗をチェックしながら歩く。食べすぎ注意。</div>
+      <div class="shops">
+        <div class="shop"><div class="sn" data-e>華屋敷</div><div class="sd" data-e>揚げもみじ・もみじ饅頭の食べ歩き定番店</div></div>
+        <div class="shop"><div class="sn" data-e>紅葉堂</div><div class="sd" data-e>揚げもみじ発祥の店。5種の味から選べる</div></div>
+        <div class="shop"><div class="sn" data-e>GEBURA</div><div class="sd" data-e>牡蠣バーガーなどオリジナルグルメ</div></div>
+        <div class="shop"><div class="sn" data-e>うまいもの館</div><div class="sd" data-e>焼き牡蠣・穴子串など各種食べ歩き</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="tli">
+    <div class="tll"><span class="tlt" data-e>12:15</span><div class="tld"></div><div class="tln"></div></div>
+    <div class="tlb"><div class="tln2" data-e>あなごめしうえの — テイクアウト</div><div class="tlm" data-e>フェリー乗り場そばで購入。電車内や呉到着後に食べる。混雑時は並ぶ覚悟で。</div></div>
+  </div>
+  <div class="tli">
+    <div class="tll"><span class="tlt" data-e>12:45</span><div class="tld k"></div><div class="tln"></div></div>
+    <div class="tlb"><div class="tln2" data-e>宮島 出発 → フェリーで宮島口へ</div><div class="tlm" data-e>弥山・ロープウェーは今回スキップ。呉への移動を優先。</div></div>
+  </div>
+</div>
+
+<div class="sec">
+  <span class="sec-icon">&#127963;</span>
+  <span class="sec-title">午後 — 大和ミュージアム＋てつのくじら館</span>
+</div>
+
+<div class="tl">
+  <div class="tli">
+    <div class="tll"><span class="tlt" data-e>13:00</span><div class="tld"></div><div class="tln"></div></div>
+    <div class="tlb"><div class="tln2" data-e>宮島口 → 広島駅 → 呉駅</div><div class="tlm" data-e>JR呉線 広島〜呉 約36分。乗り換え含め1時間半ほど見る。電車内でうえのを食べても◎。</div></div>
+  </div>
+  <div class="tli">
+    <div class="tll"><span class="tlt" data-e>14:30</span><div class="tld"></div><div class="tln"></div></div>
+    <div class="tlb"><div class="tln2" data-e>呉駅 着 → 宿へ荷物を預ける</div><div class="tlm" data-e>無垢 入船の宿まで徒歩約10分。CI 15:00〜なので荷物だけ先に預けて身軽に。</div></div>
+  </div>
+  <div class="tli">
+    <div class="tll"><span class="tlt" data-e>14:50</span><div class="tld k"></div><div class="tln"></div></div>
+    <div class="tlb">
+      <div class="tln2" data-e>てつのくじら館 <span class="badge bg">無料</span></div>
+      <div class="tlm" data-e>呉駅から徒歩5分。大和ミュージアムの向かい。所要60分。入館17:30まで。</div>
+      <div class="shops">
+        <div class="shop"><div class="sn" data-e>見どころ</div><div class="sd" data-e>実物潜水艦「あきしお」乗艦・潜望鏡体験・艦長室・発令所。カフェで「あきしおカレー」（数量限定）も</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="tli">
+    <div class="tll"><span class="tlt" data-e>15:50</span><div class="tld k"></div><div class="tln"></div></div>
+    <div class="tlb"><div class="tln2" data-e>大和ミュージアム 入館</div><div class="tlm" data-e>すぐ向かい。入館締切17:30・閉館18:00。入館料1,000円（一般）。リニューアル展示2,100点。</div></div>
+  </div>
+  <div class="tli">
+    <div class="tll"><span class="tlt" data-e>〜17:20</span><div class="tld"></div><div class="tln"></div></div>
+    <div class="tlb"><div class="tln2" data-e>展示見学（約1時間半）</div><div class="tlm" data-e>10分の1戦艦「大和」模型・実物資料。14:00〜ボランティアガイドあり（予約不要）。</div></div>
+  </div>
+  <div class="tli">
+    <div class="tll"><span class="tlt" data-e>17:30</span><div class="tld"></div><div class="tln"></div></div>
+    <div class="tlb"><div class="tln2" data-e>宿 チェックイン</div><div class="tlm" data-e>ミュージアムから無垢 入船の宿まで徒歩約10分。</div></div>
+  </div>
+</div>
+
+<div class="sec">
+  <span class="sec-icon">&#127751;</span>
+  <span class="sec-title">夕方 — アレイからすこじまで夕景</span>
+</div>
+
+<div class="tl">
+  <div class="tli">
+    <div class="tll"><span class="tlt" data-e>18:00</span><div class="tld"></div><div class="tln"></div></div>
+    <div class="tlb"><div class="tln2" data-e>宿 → アレイからすこじまへ</div><div class="tlm" data-e>タクシー利用（約2.7km・10分目安）</div></div>
+  </div>
+  <div class="tli">
+    <div class="tll"><span class="tlt" data-e>18:20</span><div class="tld k"></div><div class="tln"></div></div>
+    <div class="tlb"><div class="tln2" data-e>アレイからすこじまで夕景</div><div class="tlm" data-e>潜水艦・護衛艦と港の夕焼け。6月日没は19:20頃。19:10には移動開始。</div></div>
+  </div>
+  <div class="tli">
+    <div class="tll"><span class="tlt" data-e>19:10</span><div class="tld"></div><div class="tln"></div></div>
+    <div class="tlb"><div class="tln2" data-e>タクシーで夕食へ移動</div><div class="tlm" data-e>れんが亭 三丁目店まで約10分。</div></div>
+  </div>
+</div>
+
+<div class="sec">
+  <span class="sec-icon">&#127859;</span>
+  <span class="sec-title">夜 — 呉の晩ご飯</span>
+</div>
+
+<div class="card">
+  <div class="ct">広島流お好み焼 れんが亭 三丁目店 <span class="badge bb">第一候補</span></div>
+  <div class="ir"><span class="il">予約時間</span><span class="iv" data-e>19:45〜20:00（1名）<br><small style="color:var(--muted)">到着が少し前後する旨を伝える</small></span></div>
+  <div class="ir"><span class="il">営業時間</span><span class="iv" data-e>11:00〜22:30（L.O. 22:00）／ 火曜定休</span></div>
+  <div class="ir"><span class="il">住所</span><span class="iv" data-e>呉市中通3-6-20（呉駅から徒歩約12分）</span></div>
+  <a class="tb" href="tel:0823-22-7432">&#128222; 0823-22-7432 に電話</a>
+</div>
+
+<div class="tel-memo">
+  <b>電話確認メモ</b><br>
+  <span data-e>「6月6日（土）19時45分頃に、1名で予約できますでしょうか。観光後に伺う予定のため、到着が少し前後する可能性があります。よろしくお願いいたします。」</span>
+</div>
+
+<div class="card">
+  <div class="ct">満席時の代替候補</div>
+  <div class="ir"><span class="il">候補1</span><span class="iv" data-e>五エ門 呉レクレ店</span></div>
+  <div class="ir"><span class="il">候補2</span><span class="iv" data-e>徳兵衛 呉駅ビル店</span></div>
+</div>
+
+</div>
+
+<!-- ===================== 2日目 ===================== -->
+<div id="day2" class="page">
+
+<div class="alert red">
+  <span class="alert-icon">&#9888;</span>
+  <span><b>乗り遅れ厳禁！</b>SEA SPICAは事前予約制・当日乗船不可。出港30分前（8:50）には呉港桟橋へ。</span>
+</div>
+
+<div class="sec">
+  <span class="sec-icon">&#9875;</span>
+  <span class="sec-title">朝 — 呉港 SEA SPICA 出港</span>
+  <span class="day-tag">6月7日(日)</span>
+</div>
+
+<div class="tl">
+  <div class="tli">
+    <div class="tll"><span class="tlt" data-e>7:30</span><div class="tld"></div><div class="tln"></div></div>
+    <div class="tlb"><div class="tln2" data-e>朝食・身支度・荷物まとめ</div><div class="tlm" data-e>無垢のモーニングプレート（7:30〜9:30）。前日CI時に要予約。</div></div>
+  </div>
+  <div class="tli">
+    <div class="tll"><span class="tlt" data-e>8:30</span><div class="tld"></div><div class="tln"></div></div>
+    <div class="tlb"><div class="tln2" data-e>チェックアウト</div><div class="tlm" data-e>忘れ物確認。</div></div>
+  </div>
+  <div class="tli">
+    <div class="tll"><span class="tlt" data-e>8:40</span><div class="tld"></div><div class="tln"></div></div>
+    <div class="tlb"><div class="tln2" data-e>宿 → 呉港（中央桟橋）</div><div class="tlm" data-e>呉駅から徒歩1分。宿からは徒歩約8〜10分。</div></div>
+  </div>
+  <div class="tli">
+    <div class="tll"><span class="tlt" data-e>8:50</span><div class="tld"></div><div class="tln"></div></div>
+    <div class="tlb"><div class="tln2" data-e>乗船口へ（出港30分前）</div><div class="tlm" data-e>乗船チケット・予約確認書を準備。</div></div>
+  </div>
+  <div class="tli">
+    <div class="tll"><span class="tlt" data-e>9:20</span><div class="tld k"></div><div class="tln"></div></div>
+    <div class="tlb"><div class="tln2" data-e>SEA SPICA 呉港 出港</div><div class="tlm" data-e>うさぎコース。デッキ「スピカテラス」から瀬戸内の多島美を満喫。マリンガイドが案内。</div></div>
+  </div>
+  <div class="tli">
+    <div class="tll"><span class="tlt" data-e>途中</span><div class="tld"></div><div class="tln"></div></div>
+    <div class="tlb"><div class="tln2" data-e>大久野島（うさぎ島）寄港</div><div class="tlm" data-e>下船観光約30分。船内でうさぎのエサも販売。</div></div>
+  </div>
+  <div class="tli">
+    <div class="tll"><span class="tlt" data-e>12:45</span><div class="tld k"></div><div class="tln"></div></div>
+    <div class="tlb"><div class="tln2" data-e>尾道港 着</div><div class="tlm" data-e>下船後そのまま徒歩で市内へ。</div></div>
+  </div>
+</div>
+
+<div class="sec">
+  <span class="sec-icon">&#127836;</span>
+  <span class="sec-title">昼 — 尾道ランチ</span>
+</div>
+
+<div class="card">
+  <div class="ct">尾道ラーメン 喰海 <span class="badge bb">第一候補</span></div>
+  <div class="ir"><span class="il">アクセス</span><span class="iv" data-e>尾道港から徒歩約5分</span></div>
+  <div class="ir"><span class="il">判断目安</span><span class="iv" data-e>30分以内 → 並ぶ ／ 45分以上 → 食べ歩きへ切替</span></div>
+</div>
+
+<div class="card">
+  <div class="ct">食べ歩き候補（混雑時）</div>
+  <div class="ir"><span class="il">スイーツ</span><span class="iv" data-e>からさわのアイス最中（尾道本通り商店街）</span></div>
+  <div class="ir"><span class="il">軽食</span><span class="iv" data-e>練り物・コロッケ・パン・揚げ物など</span></div>
+  <div class="ir"><span class="il">カフェ</span><span class="iv" data-e>尾道本通り沿いの個性的カフェ各種</span></div>
+</div>
+
+<div class="sec">
+  <span class="sec-icon">&#128694;</span>
+  <span class="sec-title">午後 — 尾道散策</span>
+</div>
+
+<div class="tl">
+  <div class="tli">
+    <div class="tll"><span class="tlt" data-e>14:00</span><div class="tld"></div><div class="tln"></div></div>
+    <div class="tlb"><div class="tln2" data-e>尾道本通り商店街 散策</div><div class="tlm" data-e>食べ歩き・雑貨・お土産。レトロな商店街を気ままに。</div></div>
+  </div>
+  <div class="tli">
+    <div class="tll"><span class="tlt" data-e>14:45</span><div class="tld"></div><div class="tln"></div></div>
+    <div class="tlb"><div class="tln2" data-e>千光寺ロープウェイ乗り場へ</div><div class="tlm" data-e>商店街から徒歩約10分。往復700円。</div></div>
+  </div>
+  <div class="tli">
+    <div class="tll"><span class="tlt" data-e>15:00</span><div class="tld k"></div><div class="tln"></div></div>
+    <div class="tlb"><div class="tln2" data-e>千光寺公園・展望台</div><div class="tlm" data-e>尾道水道と瀬戸内の島々を一望。尾道随一の絶景。</div></div>
+  </div>
+  <div class="tli">
+    <div class="tll"><span class="tlt" data-e>16:00</span><div class="tld"></div><div class="tln"></div></div>
+    <div class="tlb"><div class="tln2" data-e>千光寺・文学のこみち 下り散策</div><div class="tlm" data-e>石段を下りながら歌碑を楽しむ。足元注意。約45分。</div></div>
+  </div>
+  <div class="tli">
+    <div class="tll"><span class="tlt" data-e>17:00</span><div class="tld"></div><div class="tln"></div></div>
+    <div class="tlb"><div class="tln2" data-e>尾道駅周辺 — カフェ or お土産</div><div class="tlm" data-e>帰りの時間に合わせて休憩・お土産購入。</div></div>
+  </div>
+  <div class="tli">
+    <div class="tll"><span class="tlt" data-e>夕方以降</span><div class="tld k"></div><div class="tln"></div></div>
+    <div class="tlb"><div class="tln2" data-e>尾道駅 → 帰路</div><div class="tlm" data-e>JR山陽本線で広島・新幹線接続など。帰りの便に合わせて調整。</div></div>
+  </div>
+</div>
+
+</div>
+
+<!-- ===================== 連絡先 ===================== -->
+<div id="contacts" class="page">
+
+<div class="sec"><span class="sec-icon">&#127968;</span><span class="sec-title">宿泊先</span></div>
+<div class="card">
+  <div class="ct">無垢 入船の宿</div>
+  <div class="ir"><span class="il">住所</span><span class="iv" data-e>広島県呉市本通1-6-15</span></div>
+  <div class="ir"><span class="il">CI/CO</span><span class="iv" data-e>チェックイン 15:00〜 ／ チェックアウト 11:00まで</span></div>
+  <div class="ir"><span class="il">アクセス</span><span class="iv" data-e>呉駅から徒歩約8〜10分</span></div>
+  <div class="ir"><span class="il">備考</span><span class="iv" data-e>23時以降は入口施錠。遅着の場合は要事前連絡</span></div>
+  <a class="tb" href="tel:0823-69-7200">&#128222; 0823-69-7200 に電話</a>
+</div>
+
+<div class="sec"><span class="sec-icon">&#9875;</span><span class="sec-title">SEA SPICA（せとうち島たびクルーズ）</span></div>
+<div class="card">
+  <div class="ct">瀬戸内海汽船トラベルサービス</div>
+  <div class="ir"><span class="il">受付時間</span><span class="iv" data-e>9:00〜17:00（土 〜13:00）／ 日祝休み</span></div>
+  <div class="ir"><span class="il">乗り場</span><span class="iv" data-e>呉港（中央桟橋）— 呉駅から徒歩1分</span></div>
+  <div class="ir"><span class="il">緊急当日</span><span class="iv" data-e>瀬戸内海汽船予約センター 082-253-1212（7:00〜20:30）</span></div>
+  <a class="tb" href="tel:082-253-5501">&#128222; 082-253-5501 予約・問い合わせ</a>
+  <a class="tbo" href="tel:082-253-1212">&#128222; 082-253-1212 緊急当日用</a>
+</div>
+
+<div class="sec"><span class="sec-icon">&#127963;</span><span class="sec-title">大和ミュージアム ＆ てつのくじら館</span></div>
+<div class="card">
+  <div class="ct">呉市海事歴史科学館（大和ミュージアム）</div>
+  <div class="ir"><span class="il">住所</span><span class="iv" data-e>広島県呉市宝町5-20</span></div>
+  <div class="ir"><span class="il">開館時間</span><span class="iv" data-e>9:00〜18:00（入館は17:30まで）</span></div>
+  <div class="ir"><span class="il">休館日</span><span class="iv" data-e>火曜日（祝日の場合は翌日）</span></div>
+  <div class="ir"><span class="il">入館料</span><span class="iv" data-e>一般（大学生以上）1,000円</span></div>
+  <a class="tb" href="tel:0823-25-3017">&#128222; 0823-25-3017 に電話</a>
+</div>
+<div class="card">
+  <div class="ct">海上自衛隊呉史料館（てつのくじら館）<span class="badge bg">無料</span></div>
+  <div class="ir"><span class="il">場所</span><span class="iv" data-e>大和ミュージアムの向かい（呉駅から徒歩5分）</span></div>
+  <div class="ir"><span class="il">開館時間</span><span class="iv" data-e>10:00〜18:00（入館は17:30まで）</span></div>
+  <div class="ir"><span class="il">休館日</span><span class="iv" data-e>火曜日（祝日の場合は翌日）</span></div>
+  <div class="ir"><span class="il">所要時間</span><span class="iv" data-e>40〜60分。潜水艦「あきしお」乗艦・潜望鏡体験あり</span></div>
+</div>
+
+<div class="sec"><span class="sec-icon">&#127859;</span><span class="sec-title">夕食 — れんが亭 三丁目店</span></div>
+<div class="card">
+  <div class="ct">広島流お好み焼 れんが亭 三丁目店</div>
+  <div class="ir"><span class="il">住所</span><span class="iv" data-e>呉市中通3-6-20（呉駅から徒歩約12分）</span></div>
+  <div class="ir"><span class="il">営業時間</span><span class="iv" data-e>11:00〜22:30（L.O. 22:00）／ 火曜定休</span></div>
+  <div class="ir"><span class="il">予約内容</span><span class="iv" data-e>6/6（土）19:45〜20:00頃 ／ 1名</span></div>
+  <a class="tb" href="tel:0823-22-7432">&#128222; 0823-22-7432 に電話（予約）</a>
+</div>
+
+</div>
+
+<!-- ===================== チェック ===================== -->
+<div id="checklist" class="page">
+
+<div class="sec"><span class="sec-icon">&#9989;</span><span class="sec-title">予約・確認リスト</span></div>
+<ul class="ck-list" id="ck">
+  <li>
+    <div class="ck-box done" data-ck>&#10003;</div>
+    <div><div class="ck-text done" data-e>SEA SPICA 乗船 — 予約済み（呉港9:20発・尾道港12:45着予定）</div></div>
+  </li>
+  <li>
+    <div class="ck-box" data-ck></div>
+    <div><div class="ck-text" data-e>無垢 入船の宿 — チェックイン時間確認</div><div class="ck-sub">0823-69-7200</div></div>
+  </li>
+  <li>
+    <div class="ck-box" data-ck></div>
+    <div><div class="ck-text" data-e>れんが亭 三丁目店 — 6/6(土) 19:45〜 1名 予約電話</div><div class="ck-sub">0823-22-7432（火曜定休に注意）</div></div>
+  </li>
+  <li>
+    <div class="ck-box" data-ck></div>
+    <div><div class="ck-text" data-e>大和ミュージアム — 開館9:00〜・入館17:30まで確認</div><div class="ck-sub">0823-25-3017</div></div>
+  </li>
+  <li>
+    <div class="ck-box" data-ck></div>
+    <div><div class="ck-text" data-e>てつのくじら館 — 入場無料。入館17:30まで。6/6(土)開館日OK</div></div>
+  </li>
+  <li>
+    <div class="ck-box" data-ck></div>
+    <div><div class="ck-text" data-e>帰りの交通 — 尾道駅発の時間を確認</div></div>
+  </li>
+</ul>
+
+<div class="sec"><span class="sec-icon">&#11088;</span><span class="sec-title">旅の優先順位</span></div>
+<ul class="pr-list">
+  <li><span class="pnum">1</span><span data-e>SEA SPICAに乗る（予約済・要時間厳守）</span></li>
+  <li><span class="pnum">2</span><span data-e>大和ミュージアムに行く（リニューアル後）</span></li>
+  <li><span class="pnum">3</span><span data-e>てつのくじら館で潜水艦乗艦体験</span></li>
+  <li><span class="pnum">4</span><span data-e>アレイからすこじまで夕景を見る</span></li>
+  <li><span class="pnum">5</span><span data-e>宮島の食べ歩き4店舗を巡る</span></li>
+  <li><span class="pnum">6</span><span data-e>尾道でラーメンまたは食べ歩き</span></li>
+  <li><span class="pnum">7</span><span data-e>千光寺公園から尾道水道を眺める</span></li>
+</ul>
+
+<div class="sec"><span class="sec-icon">&#127921;</span><span class="sec-title">持ち物</span></div>
+<div class="card" style="padding:0 8px">
+  <div class="pack-grid">
+    <div class="pack-item"><span class="pack-icon">&#128267;</span><span data-e>モバイルバッテリー</span></div>
+    <div class="pack-item"><span class="pack-icon">&#9730;</span><span data-e>折りたたみ傘</span></div>
+    <div class="pack-item"><span class="pack-icon">&#128095;</span><span data-e>歩きやすい靴</span></div>
+    <div class="pack-item"><span class="pack-icon">&#128255;</span><span data-e>羽織もの</span></div>
+    <div class="pack-item"><span class="pack-icon">&#128138;</span><span data-e>常備薬</span></div>
+    <div class="pack-item"><span class="pack-icon">&#128181;</span><span data-e>現金（少し）</span></div>
+    <div class="pack-item"><span class="pack-icon">&#128203;</span><span data-e>予約情報</span></div>
+    <div class="pack-item"><span class="pack-icon">&#127890;</span><span data-e>小さめのバッグ</span></div>
+  </div>
+</div>
+
+<div class="sec"><span class="sec-icon">&#9888;</span><span class="sec-title">注意点まとめ</span></div>
+<div class="memo">
+  <b>1日目</b> <span data-e>宮島は短めに。てつのくじら館は無料・所要60分なので大和ミュージアムの前に立ち寄る。両館とも入館17:30まで。アレイからすこじまは18:20着・19:10移動開始が目標。</span><br><br>
+  <b>2日目</b> <span data-e>SEA SPICA出港30分前（8:50）には呉港桟橋へ。乗り遅れ不可。尾道ラーメンは行列次第で食べ歩きに柔軟に切替。</span><br><br>
+  <b>共通</b> <span data-e>両館とも火曜休館。6/6(土)・6/7(日)は問題なし。うえのあなごめしはテイクアウトで宮島口にて購入。</span>
+</div>
+
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+
+  /* ---- タブ切り替え ---- */
+  var tabs = document.querySelectorAll('.tab');
+  tabs.forEach(function(tab){
+    tab.addEventListener('click', function(e){
+      e.preventDefault();
+      var id = tab.getAttribute('data-page');
+      document.querySelectorAll('.page').forEach(function(p){ p.classList.remove('active'); });
+      document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('active'); });
+      document.getElementById(id).classList.add('active');
+      tab.classList.add('active');
+    });
+    tab.addEventListener('touchend', function(e){
+      e.preventDefault();
+      var id = tab.getAttribute('data-page');
+      document.querySelectorAll('.page').forEach(function(p){ p.classList.remove('active'); });
+      document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('active'); });
+      document.getElementById(id).classList.add('active');
+      tab.classList.add('active');
+    });
+  });
+
+  /* ---- チェックボックス ---- */
+  document.querySelectorAll('[data-ck]').forEach(function(box){
+    function toggle(e){
+      e.preventDefault();
+      box.classList.toggle('done');
+      box.innerHTML = box.classList.contains('done') ? '&#10003;' : '';
+      var txt = box.parentElement.querySelector('.ck-text');
+      if(txt) txt.classList.toggle('done', box.classList.contains('done'));
+    }
+    box.addEventListener('click', toggle);
+    box.addEventListener('touchend', toggle);
+  });
+
+  /* ---- 編集ボタン ---- */
+  var editMode = false;
+  var btn = document.getElementById('edit-toggle');
+  var status = document.getElementById('edit-status');
+  function toggleEdit(e){
+    e.preventDefault();
+    editMode = !editMode;
+    if(editMode){
+      btn.textContent = '編集を終了';
+      btn.className = 'edit-btn on';
+      status.textContent = 'タップした箇所を直接書き換えられます';
+      document.querySelectorAll('[data-e]').forEach(function(el){ el.contentEditable = 'true'; });
+    } else {
+      btn.textContent = '編集する';
+      btn.className = 'edit-btn off';
+      status.textContent = '「編集する」で内容を直接書き換えられます';
+      document.querySelectorAll('[data-e]').forEach(function(el){ el.contentEditable = 'false'; });
+    }
+  }
+  btn.addEventListener('click', toggleEdit);
+  btn.addEventListener('touchend', toggleEdit);
+
+});
+</script>
+</body>
+</html>
